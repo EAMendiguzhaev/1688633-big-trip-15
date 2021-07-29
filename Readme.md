@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
-* Студент: [Эльдар Мендигужаев](https://up.htmlacademy.ru/ecmascript/15/user/1688633).
-* Наставник: `Неизвестно`.
+- Студент: [Эльдар Мендигужаев](https://up.htmlacademy.ru/ecmascript/15/user/1688633).
+- Наставник: [Владислав Зубко](https://htmlacademy.ru/profile/whatislove).
 
 ---
 
