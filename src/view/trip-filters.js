@@ -1,4 +1,4 @@
-const createFiltersTemplate = () => `
+const createTripFiltersTemplate = () => `
 <form class="trip-filters" action="#" method="get">
   <div class="trip-filters__filter">
     <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-fvalue="everything" checked>
@@ -19,4 +19,4 @@ const createFiltersTemplate = () => `
 </form>
 `;
 
-export { createFiltersTemplate };
+export { createTripFiltersTemplate };
