@@ -6,7 +6,7 @@ const createEditPointTemplate = (point = {}) => {
 
   const checkedType = type;
 
-  const renderTypeElements = () =>
+  const renderTypeNodes = () =>
     TYPES_OFFERS.map(
       (currentValue) => `
       <div class="event__type-item">
@@ -24,7 +24,7 @@ const createEditPointTemplate = (point = {}) => {
     `,
     ).join('');
 
-  const generateOffersElement = () =>
+  const generateOffersNode = () =>
     offers
       .map((currentValue) => {
         if (currentValue.title === '') {
@@ -57,7 +57,7 @@ const createEditPointTemplate = (point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${renderTypeElements()}
+              ${renderTypeNodes()}
             </fieldset>
           </div>
         </div>
@@ -101,7 +101,7 @@ const createEditPointTemplate = (point = {}) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${generateOffersElement()}
+            ${generateOffersNode()}
           </div>
         </section>
         <section class="event__section  event__section--destination">
