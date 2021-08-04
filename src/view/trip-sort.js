@@ -1,4 +1,4 @@
-const createFormSortTemplate = () => `
+const createTripSortTemplate = () => `
 <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
   <div class="trip-sort__item  trip-sort__item--day">
     <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" checked>
@@ -6,7 +6,7 @@ const createFormSortTemplate = () => `
   </div>
 
   <div class="trip-sort__item  trip-sort__item--event">
-    <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-evdisabled>
+    <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
     <label class="trip-sort__btn" for="sort-event">Event</label>
   </div>
 
@@ -27,4 +27,4 @@ const createFormSortTemplate = () => `
 </form>
 `;
 
-export { createFormSortTemplate };
+export { createTripSortTemplate };
