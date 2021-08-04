@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, Offers } from '../common/const.js';
+import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting } from '../common/const.js';
 import { offers } from './offers.js';
 import { getRandomInteger, getRandomIndex } from '../utils.js';
 
@@ -7,7 +7,7 @@ const getRandomTypeEvent = () => TYPES_OFFERS[getRandomIndex(TYPES_OFFERS)];
 
 const getRandomDescription = (text) => {
   const sentence = text.slice(0, -1).split('. ');
-  const sentenceCount = getRandomInteger(Offers.min, Offers.max);
+  const sentenceCount = getRandomInteger(OfferSetting.min, OfferSetting.max);
   const randomIndex = getRandomIndex(sentence);
 
   return `${sentence.slice(randomIndex, randomIndex + sentenceCount).join('. ')}.`;

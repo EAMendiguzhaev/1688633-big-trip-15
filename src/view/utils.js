@@ -28,13 +28,7 @@ const getTimeDifference = (timeFrom, timeUntil) => {
   return `${hours}H ${minutes}M`;
 };
 
-const formatDateForEditPoint = (date) => {
-  if (date !== null) {
-    return dayjs(date).format('D/MM/YY HH:mm');
-  } else {
-    return '';
-  }
-};
+const formatDateForEditPoint = (date) => (date !== null ? dayjs(date).format('D/MM/YY HH:mm') : '');
 
 const getTotalDate = (dateFrom, dateUntil) => `${dayjs(dateFrom).format('MMM D')} - ${dayjs(dateUntil).format('D')}`;
 

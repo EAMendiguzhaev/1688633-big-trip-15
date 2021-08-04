@@ -13,15 +13,7 @@ const EVENTS_COUNT = 20;
 const events = new Array(EVENTS_COUNT)
   .fill()
   .map(generateEvent)
-  .sort((a, b) => {
-    if (a.dateUntil > b.dateUntil) {
-      return 1;
-    }
-    if (a.dateUntil < b.dateUntil) {
-      return -1;
-    }
-    return 0;
-  });
+  .sort((a, b) => a.dateUntil > b.dateUntil);
 
 const pageHeader = document.querySelector('.page-header');
 const menuControlsNode = pageHeader.querySelector('.trip-controls__navigation');
