@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 
 const MINUTES_IN_HOUR = 60;
 
-const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+const RenderPosition = {
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
 };
 
 const getRandomInteger = (a = 0, b = 1) => {
@@ -32,4 +33,22 @@ const formatDateForEditPoint = (date) => (date !== null ? dayjs(date).format('D/
 
 const getTotalDate = (dateFrom, dateUntil) => `${dayjs(dateFrom).format('MMM D')} - ${dayjs(dateUntil).format('D')}`;
 
-export { renderTemplate, getRandomInteger, getRandomIndex, getTimeDifference, formatDateForEditPoint, getTotalDate };
+const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+const createNode = (template) => {
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export { RenderPosition, render, createNode, getRandomInteger, getRandomIndex, getTimeDifference, formatDateForEditPoint, getTotalDate };
