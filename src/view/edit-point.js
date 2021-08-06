@@ -1,8 +1,18 @@
 import { TYPES_OFFERS } from '../view/common/const.js';
-import { formatDateForEditPoint } from './utils.js';
+import { createNode, formatDateForEditPoint } from './utils.js';
+
+const BLANK_POINT = {
+  type: '',
+  destination: '',
+  dateFrom: '',
+  dateUntil: '',
+  price: '',
+  description: '',
+  offers: [],
+};
 
 const createEditPointTemplate = (point = {}) => {
-  const { type = '', destination = '', dateFrom = '', dateUntil = '', price = '', offers = [] } = point;
+  const { type, destination, dateFrom, dateUntil, price, offers } = point;
 
   const checkedType = type;
 
@@ -118,4 +128,27 @@ const createEditPointTemplate = (point = {}) => {
   `;
 };
 
-export { createEditPointTemplate };
+class EditPoint {
+  constructor(point = BLANK_POINT) {
+    this._node = null;
+    this._point = point;
+  }
+
+  getTemplate() {
+    return createEditPointTemplate(this._point);
+  }
+
+  getNode() {
+    if (!this._node) {
+      this._node = createNode(this.getTemplate());
+    }
+
+    return this._node;
+  }
+
+  removeNode() {
+    this._node = null;
+  }
+}
+
+export default EditPoint;

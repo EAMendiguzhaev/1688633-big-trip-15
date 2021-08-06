@@ -1,11 +1,11 @@
-import { renderTemplate } from './view/utils.js';
-import { createTripMainTemplate } from './view/trip-main.js';
-import { createTripTabsTemplate } from './view/trip-tabs.js';
-import { createTripFiltersTemplate } from './view/trip-filters.js';
-import { createTripSortTemplate } from './view/trip-sort.js';
-import { createTripEventListTemplate } from './view/trip-event-list.js';
-import { createEditPointTemplate } from './view/edit-point.js';
-import { createContentNode } from './view/content.js';
+import { RenderPosition, render } from './view/utils.js';
+import TripMainView from './view/trip-main.js';
+import TripTabsView from './view/trip-tabs.js';
+import TripFiltersView from './view/trip-filters.js';
+import TripSortView from './view/trip-sort.js';
+import TripEventListView from './view/trip-event-list.js';
+import EditPointView from './view/edit-point.js';
+import ContentView from './view/content.js';
 import { generateEvent } from './view/mocks/event.js';
 
 const EVENTS_COUNT = 20;
@@ -21,25 +21,53 @@ const tripMainNode = pageHeader.querySelector('.trip-main');
 const filterConrolsNode = tripMainNode.querySelector('.trip-controls__filters');
 const eventsContainerNode = document.querySelector('.trip-events');
 
-// Меню
-renderTemplate(menuControlsNode, createTripTabsTemplate(), 'afterbegin');
-
 // Маршрут городов, время и общая стоимость поездки
-renderTemplate(tripMainNode, createTripMainTemplate(events), 'afterbegin');
+render(tripMainNode, new TripMainView(events).getNode(), RenderPosition.AFTERBEGIN);
+
+// Меню
+render(menuControlsNode, new TripTabsView().getNode(), RenderPosition.BEFOREEND);
 
 // Фильтры everything, future, past
-renderTemplate(filterConrolsNode, createTripFiltersTemplate(), 'afterbegin');
+render(filterConrolsNode, new TripFiltersView().getNode(), RenderPosition.AFTERBEGIN);
 
 // Сортировка day, event, time, price, offers
-renderTemplate(eventsContainerNode, createTripSortTemplate(), 'afterbegin');
+render(eventsContainerNode, new TripSortView().getNode(), RenderPosition.AFTERBEGIN);
 
 // Контент
-renderTemplate(eventsContainerNode, createTripEventListTemplate(), 'beforeend');
+render(eventsContainerNode, new TripEventListView().getNode(), RenderPosition.BEFOREEND);
 
 const tripEventListNode = eventsContainerNode.querySelector('.trip-events__list');
 
-renderTemplate(tripEventListNode, createEditPointTemplate(events[0]), 'afterbegin');
+const renderEvents = (eventsListNode, event) => {
+  const editEventComponent = new EditPointView(event);
+  const contentComponent = new ContentView(event);
+
+  const replaceEventToEditForm = () => {
+    eventsListNode.replaceChild(editEventComponent.getNode(), contentComponent.getNode());
+  };
+
+  const replaceEditFormToEvent = () => {
+    eventsListNode.replaceChild(contentComponent.getNode(), editEventComponent.getNode());
+  };
+
+  contentComponent
+    .getNode()
+    .querySelector('.event__rollup-btn')
+    .addEventListener('click', () => {
+      replaceEventToEditForm();
+    });
+
+  editEventComponent
+    .getNode()
+    .querySelector('form')
+    .addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      replaceEditFormToEvent();
+    });
+
+  render(eventsListNode, contentComponent.getNode(), RenderPosition.BEFOREEND);
+};
 
 for (let i = 1; i < EVENTS_COUNT; i++) {
-  renderTemplate(tripEventListNode, createContentNode(events[i]), 'beforeend');
+  renderEvents(tripEventListNode, events[i]);
 }

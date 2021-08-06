@@ -1,3 +1,5 @@
+import { createNode } from './utils.js';
+
 const createTripFiltersTemplate = () => `
 <form class="trip-filters" action="#" method="get">
   <div class="trip-filters__filter">
@@ -19,4 +21,26 @@ const createTripFiltersTemplate = () => `
 </form>
 `;
 
-export { createTripFiltersTemplate };
+class TripFilters {
+  constructor() {
+    this._node = null;
+  }
+
+  getTemplate() {
+    return createTripFiltersTemplate();
+  }
+
+  getNode() {
+    if (!this._node) {
+      this._node = createNode(this.getTemplate());
+    }
+
+    return this._node;
+  }
+
+  removeNode() {
+    this._node = null;
+  }
+}
+
+export default TripFilters;

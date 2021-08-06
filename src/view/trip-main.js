@@ -1,4 +1,4 @@
-import { getTotalDate } from './utils.js';
+import { createNode, getTotalDate } from './utils.js';
 
 const EVENTS_COUNT = 3;
 
@@ -39,4 +39,27 @@ const createTripMainTemplate = (events) => {
   `;
 };
 
-export { createTripMainTemplate };
+class TripMain {
+  constructor(events) {
+    this._node = null;
+    this._events = events;
+  }
+
+  getTemplate() {
+    return createTripMainTemplate(this._events);
+  }
+
+  getNode() {
+    if (!this._node) {
+      this._node = createNode(this.getTemplate());
+    }
+
+    return this._node;
+  }
+
+  removeNode() {
+    return (this._node = null);
+  }
+}
+
+export default TripMain;

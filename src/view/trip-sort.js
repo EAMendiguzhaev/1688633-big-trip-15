@@ -1,3 +1,5 @@
+import { createNode } from './utils.js';
+
 const createTripSortTemplate = () => `
 <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
   <div class="trip-sort__item  trip-sort__item--day">
@@ -27,4 +29,26 @@ const createTripSortTemplate = () => `
 </form>
 `;
 
-export { createTripSortTemplate };
+class TripSort {
+  constructor() {
+    this._node = null;
+  }
+
+  getTemplate() {
+    return createTripSortTemplate();
+  }
+
+  getNode() {
+    if (!this._node) {
+      this._node = createNode(this.getTemplate());
+    }
+
+    return this._node;
+  }
+
+  removeNode() {
+    return (this._node = null);
+  }
+}
+
+export default TripSort;

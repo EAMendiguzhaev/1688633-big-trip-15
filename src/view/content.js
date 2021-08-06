@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { getTimeDifference } from './utils.js';
+import { createNode, getTimeDifference } from './utils.js';
 
 const createContentNode = (event) => {
   const { type, destination, dateFrom, dateUntil, isFavorite, price } = event;
@@ -61,4 +61,27 @@ const createContentNode = (event) => {
   </li>`;
 };
 
-export { createContentNode };
+class Content {
+  constructor(event) {
+    this._node = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createContentNode(this._event);
+  }
+
+  getNode() {
+    if (!this._node) {
+      this._node = createNode(this.getTemplate());
+    }
+
+    return this._node;
+  }
+
+  removeNode() {
+    this._node = null;
+  }
+}
+
+export default Content;
