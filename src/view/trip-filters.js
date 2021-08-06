@@ -21,7 +21,7 @@ const createTripFiltersTemplate = () => `
 </form>
 `;
 
-export default class TripFilters {
+class TripFilters {
   constructor() {
     this._node = null;
   }
@@ -42,3 +42,5 @@ export default class TripFilters {
     this._node = null;
   }
 }
+
+export default TripFilters;

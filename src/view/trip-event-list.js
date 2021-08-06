@@ -3,7 +3,7 @@ import { createNode } from './utils.js';
 const createTripEventListTemplate = () => `<ul class="trip-events__list">
                                            </ul>`;
 
-export default class TripEventList {
+class TripEventList {
   constructor() {
     this._node = null;
   }
@@ -24,3 +24,5 @@ export default class TripEventList {
     return (this._node = null);
   }
 }
+
+export default TripEventList;

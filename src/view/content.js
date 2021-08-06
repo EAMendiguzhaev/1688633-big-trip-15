@@ -61,7 +61,7 @@ const createContentNode = (event) => {
   </li>`;
 };
 
-export default class Content {
+class Content {
   constructor(event) {
     this._node = null;
     this._event = event;
@@ -83,3 +83,5 @@ export default class Content {
     this._node = null;
   }
 }
+
+export default Content;

@@ -39,7 +39,7 @@ const createTripMainTemplate = (events) => {
   `;
 };
 
-export default class TripMain {
+class TripMain {
   constructor(events) {
     this._node = null;
     this._events = events;
@@ -61,3 +61,5 @@ export default class TripMain {
     return (this._node = null);
   }
 }
+
+export default TripMain;

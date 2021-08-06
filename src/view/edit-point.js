@@ -128,7 +128,7 @@ const createEditPointTemplate = (point = {}) => {
   `;
 };
 
-export default class EditPoint {
+class EditPoint {
   constructor(point = BLANK_POINT) {
     this._node = null;
     this._point = point;
@@ -150,3 +150,5 @@ export default class EditPoint {
     this._node = null;
   }
 }
+
+export default EditPoint;

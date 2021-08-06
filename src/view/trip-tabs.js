@@ -6,7 +6,7 @@ const createTripTabsTemplate = () => `
   <a class="trip-tabs__btn" href="#">Stats</a>
 </nav>`;
 
-export default class TripTabs {
+class TripTabs {
   constructor() {
     this._node = null;
   }
@@ -27,3 +27,5 @@ export default class TripTabs {
     return (this._node = null);
   }
 }
+
+export default TripTabs;
