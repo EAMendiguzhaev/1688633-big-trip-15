@@ -1,4 +1,5 @@
 import { RenderPosition, render } from './view/utils.js';
+import NoEventsView from './view/no-events.js';
 import TripMainView from './view/trip-main.js';
 import TripTabsView from './view/trip-tabs.js';
 import TripFiltersView from './view/trip-filters.js';
@@ -7,6 +8,7 @@ import TripEventListView from './view/trip-event-list.js';
 import EditPointView from './view/edit-point.js';
 import ContentView from './view/content.js';
 import { generateEvent } from './view/mocks/event.js';
+import { KeyboardKey } from './view/common/enums.js';
 
 const EVENTS_COUNT = 20;
 
@@ -21,17 +23,21 @@ const tripMainNode = pageHeader.querySelector('.trip-main');
 const filterConrolsNode = tripMainNode.querySelector('.trip-controls__filters');
 const eventsContainerNode = document.querySelector('.trip-events');
 
-// Маршрут городов, время и общая стоимость поездки
-render(tripMainNode, new TripMainView(events).getNode(), RenderPosition.AFTERBEGIN);
+if (events.length === 0) {
+  render(eventsContainerNode, new NoEventsView().getNode(), RenderPosition.BEFOREEND);
+} else {
+  // Маршрут городов, время и общая стоимость поездки
+  render(tripMainNode, new TripMainView(events).getNode(), RenderPosition.AFTERBEGIN);
+
+  // Сортировка day, event, time, price, offers
+  render(eventsContainerNode, new TripSortView().getNode(), RenderPosition.AFTERBEGIN);
+}
 
 // Меню
 render(menuControlsNode, new TripTabsView().getNode(), RenderPosition.BEFOREEND);
 
 // Фильтры everything, future, past
 render(filterConrolsNode, new TripFiltersView().getNode(), RenderPosition.AFTERBEGIN);
-
-// Сортировка day, event, time, price, offers
-render(eventsContainerNode, new TripSortView().getNode(), RenderPosition.AFTERBEGIN);
 
 // Контент
 render(eventsContainerNode, new TripEventListView().getNode(), RenderPosition.BEFOREEND);
@@ -50,11 +56,27 @@ const renderEvents = (eventsListNode, event) => {
     eventsListNode.replaceChild(contentComponent.getNode(), editEventComponent.getNode());
   };
 
+  const onEscKeyDawn = (evt) => {
+    if (evt.key === KeyboardKey.ESCAPE) {
+      evt.preventDefault();
+      replaceEditFormToEvent();
+      document.removeEventListener('keydown', onEscKeyDawn);
+    }
+  };
+
   contentComponent
     .getNode()
     .querySelector('.event__rollup-btn')
     .addEventListener('click', () => {
       replaceEventToEditForm();
+
+      document.addEventListener('keydown', onEscKeyDawn);
+      editEventComponent
+        .getNode()
+        .querySelector('.event__rollup-btn')
+        .addEventListener('click', () => {
+          replaceEditFormToEvent();
+        });
     });
 
   editEventComponent
@@ -63,6 +85,8 @@ const renderEvents = (eventsListNode, event) => {
     .addEventListener('submit', (evt) => {
       evt.preventDefault();
       replaceEditFormToEvent();
+
+      document.removeEventListener('click', onEscKeyDawn);
     });
 
   render(eventsListNode, contentComponent.getNode(), RenderPosition.BEFOREEND);
