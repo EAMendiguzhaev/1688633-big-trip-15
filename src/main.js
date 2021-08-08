@@ -8,6 +8,7 @@ import TripEventListView from './view/trip-event-list.js';
 import EditPointView from './view/edit-point.js';
 import ContentView from './view/content.js';
 import { generateEvent } from './view/mocks/event.js';
+import { KeyboardKey } from './view/common/enums.js';
 
 const EVENTS_COUNT = 20;
 
@@ -56,7 +57,7 @@ const renderEvents = (eventsListNode, event) => {
   };
 
   const onEscKeyDawn = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
+    if (evt.key === KeyboardKey.ESCAPE) {
       evt.preventDefault();
       replaceEditFormToEvent();
       document.removeEventListener('keydown', onEscKeyDawn);
