@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting } from '../common/const.js';
 import { offers } from './offers.js';
-import { getRandomInteger, getRandomIndex } from '../utils.js';
+import { getRandomInteger, getRandomIndex } from '../utils/common.js';
 
 const getRandomTypeEvent = () => TYPES_OFFERS[getRandomIndex(TYPES_OFFERS)];
 

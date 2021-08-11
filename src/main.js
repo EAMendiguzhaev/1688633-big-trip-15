@@ -1,4 +1,4 @@
-import { RenderPosition, render } from './view/utils.js';
+import { render, RenderPosition, replace } from './view/utils/render.js';
 import NoEventsView from './view/no-events.js';
 import TripMainView from './view/trip-main.js';
 import TripTabsView from './view/trip-tabs.js';
@@ -18,42 +18,42 @@ const events = new Array(EVENTS_COUNT)
   .sort((a, b) => a.dateUntil > b.dateUntil);
 
 const pageHeader = document.querySelector('.page-header');
-const menuControlsNode = pageHeader.querySelector('.trip-controls__navigation');
-const tripMainNode = pageHeader.querySelector('.trip-main');
-const filterConrolsNode = tripMainNode.querySelector('.trip-controls__filters');
-const eventsContainerNode = document.querySelector('.trip-events');
+const menuControlsElement = pageHeader.querySelector('.trip-controls__navigation');
+const tripMainElement = pageHeader.querySelector('.trip-main');
+const filterConrolsElement = tripMainElement.querySelector('.trip-controls__filters');
+const eventsContainerElement = document.querySelector('.trip-events');
 
 if (events.length === 0) {
-  render(eventsContainerNode, new NoEventsView().getNode(), RenderPosition.BEFOREEND);
+  render(eventsContainerElement, new NoEventsView(), RenderPosition.BEFOREEND);
 } else {
   // Маршрут городов, время и общая стоимость поездки
-  render(tripMainNode, new TripMainView(events).getNode(), RenderPosition.AFTERBEGIN);
+  render(tripMainElement, new TripMainView(events), RenderPosition.AFTERBEGIN);
 
   // Сортировка day, event, time, price, offers
-  render(eventsContainerNode, new TripSortView().getNode(), RenderPosition.AFTERBEGIN);
+  render(eventsContainerElement, new TripSortView(), RenderPosition.AFTERBEGIN);
 }
 
 // Меню
-render(menuControlsNode, new TripTabsView().getNode(), RenderPosition.BEFOREEND);
+render(menuControlsElement, new TripTabsView(), RenderPosition.BEFOREEND);
 
 // Фильтры everything, future, past
-render(filterConrolsNode, new TripFiltersView().getNode(), RenderPosition.AFTERBEGIN);
+render(filterConrolsElement, new TripFiltersView(), RenderPosition.AFTERBEGIN);
 
 // Контент
-render(eventsContainerNode, new TripEventListView().getNode(), RenderPosition.BEFOREEND);
+render(eventsContainerElement, new TripEventListView(), RenderPosition.BEFOREEND);
 
-const tripEventListNode = eventsContainerNode.querySelector('.trip-events__list');
+const tripEventListElement = eventsContainerElement.querySelector('.trip-events__list');
 
-const renderEvents = (eventsListNode, event) => {
+const renderEvents = (eventsListElement, event) => {
   const editEventComponent = new EditPointView(event);
   const contentComponent = new ContentView(event);
 
   const replaceEventToEditForm = () => {
-    eventsListNode.replaceChild(editEventComponent.getNode(), contentComponent.getNode());
+    replace(editEventComponent, contentComponent);
   };
 
   const replaceEditFormToEvent = () => {
-    eventsListNode.replaceChild(contentComponent.getNode(), editEventComponent.getNode());
+    replace(contentComponent, editEventComponent);
   };
 
   const onEscKeyDawn = (evt) => {
@@ -64,34 +64,25 @@ const renderEvents = (eventsListNode, event) => {
     }
   };
 
-  contentComponent
-    .getNode()
-    .querySelector('.event__rollup-btn')
-    .addEventListener('click', () => {
-      replaceEventToEditForm();
+  contentComponent.setPointOpenHandler(() => {
+    replaceEventToEditForm();
 
-      document.addEventListener('keydown', onEscKeyDawn);
-      editEventComponent
-        .getNode()
-        .querySelector('.event__rollup-btn')
-        .addEventListener('click', () => {
-          replaceEditFormToEvent();
-        });
-    });
+    document.addEventListener('keydown', onEscKeyDawn);
+  });
 
-  editEventComponent
-    .getNode()
-    .querySelector('form')
-    .addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      replaceEditFormToEvent();
+  editEventComponent.setFormCloseHandler(() => {
+    replaceEditFormToEvent();
+  });
 
-      document.removeEventListener('click', onEscKeyDawn);
-    });
+  editEventComponent.setFormSubmitHandler(() => {
+    replaceEditFormToEvent();
 
-  render(eventsListNode, contentComponent.getNode(), RenderPosition.BEFOREEND);
+    document.removeEventListener('click', onEscKeyDawn);
+  });
+
+  render(eventsListElement, contentComponent, RenderPosition.BEFOREEND);
 };
 
 for (let i = 1; i < EVENTS_COUNT; i++) {
-  renderEvents(tripEventListNode, events[i]);
+  renderEvents(tripEventListElement, events[i]);
 }

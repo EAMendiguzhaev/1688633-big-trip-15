@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import { createNode, getTimeDifference } from './utils.js';
+import { getTimeDifference } from './utils/point.js';
+import AbstractView from './abstract.js';
 
-const createContentNode = (event) => {
+const createContentElement = (event) => {
   const { type, destination, dateFrom, dateUntil, isFavorite, price } = event;
   const date = dayjs(dateFrom).format('MMM D');
   const timeFrom = dayjs(dateFrom);
@@ -10,7 +11,7 @@ const createContentNode = (event) => {
   const typeLowerCase = type.toLowerCase();
   const favoriteClassName = isFavorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 
-  const generateOffersNode = () =>
+  const generateOffersElement = () =>
     event.offers
       .map((value) => {
         if (value.title === '') {
@@ -46,7 +47,7 @@ const createContentNode = (event) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${generateOffersNode()}
+        ${generateOffersElement()}
       </ul>
       <button class="${favoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>
@@ -61,26 +62,25 @@ const createContentNode = (event) => {
   </li>`;
 };
 
-class Content {
+class Content extends AbstractView {
   constructor(event) {
-    this._node = null;
+    super();
     this._event = event;
+
+    this._pointOpenHandler = this._pointOpenHandler.bind(this);
   }
 
   getTemplate() {
-    return createContentNode(this._event);
+    return createContentElement(this._event);
   }
 
-  getNode() {
-    if (!this._node) {
-      this._node = createNode(this.getTemplate());
-    }
-
-    return this._node;
+  _pointOpenHandler() {
+    this._callback.pointOpen();
   }
 
-  removeNode() {
-    this._node = null;
+  setPointOpenHandler(callback) {
+    this._callback.pointOpen = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._pointOpenHandler);
   }
 }
 

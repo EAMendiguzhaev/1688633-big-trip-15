@@ -1,4 +1,4 @@
-import { createNode } from './utils.js';
+import AbstractView from './abstract.js';
 
 const createTripFiltersTemplate = () => `
 <form class="trip-filters" action="#" method="get">
@@ -21,25 +21,9 @@ const createTripFiltersTemplate = () => `
 </form>
 `;
 
-class TripFilters {
-  constructor() {
-    this._node = null;
-  }
-
+class TripFilters extends AbstractView {
   getTemplate() {
     return createTripFiltersTemplate();
-  }
-
-  getNode() {
-    if (!this._node) {
-      this._node = createNode(this.getTemplate());
-    }
-
-    return this._node;
-  }
-
-  removeNode() {
-    this._node = null;
   }
 }
 

@@ -1,4 +1,5 @@
-import { createNode, getTotalDate } from './utils.js';
+import { getTotalDate } from './utils/point.js';
+import AbstractView from './abstract.js';
 
 const EVENTS_COUNT = 3;
 
@@ -39,26 +40,14 @@ const createTripMainTemplate = (events) => {
   `;
 };
 
-class TripMain {
+class TripMain extends AbstractView {
   constructor(events) {
-    this._node = null;
+    super();
     this._events = events;
   }
 
   getTemplate() {
     return createTripMainTemplate(this._events);
-  }
-
-  getNode() {
-    if (!this._node) {
-      this._node = createNode(this.getTemplate());
-    }
-
-    return this._node;
-  }
-
-  removeNode() {
-    return (this._node = null);
   }
 }
 

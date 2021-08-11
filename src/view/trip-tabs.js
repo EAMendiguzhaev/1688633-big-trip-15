@@ -1,4 +1,4 @@
-import { createNode } from './utils.js';
+import AbstractView from './abstract.js';
 
 const createTripTabsTemplate = () => `
 <nav class="trip-controls__trip-tabs trip-tabs">
@@ -6,25 +6,9 @@ const createTripTabsTemplate = () => `
   <a class="trip-tabs__btn" href="#">Stats</a>
 </nav>`;
 
-class TripTabs {
-  constructor() {
-    this._node = null;
-  }
-
+class TripTabs extends AbstractView {
   getTemplate() {
     return createTripTabsTemplate();
-  }
-
-  getNode() {
-    if (!this._node) {
-      this._node = createNode(this.getTemplate());
-    }
-
-    return this._node;
-  }
-
-  removeNode() {
-    return (this._node = null);
   }
 }
 
