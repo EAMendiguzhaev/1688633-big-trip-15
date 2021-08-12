@@ -1,5 +1,6 @@
-import { TYPES_OFFERS } from '../view/common/const.js';
-import { createNode, formatDateForEditPoint } from './utils.js';
+import { TYPES_OFFERS } from './common/const.js';
+import { formatDateForEditPoint } from './utils/point.js';
+import AbstractView from './abstract.js';
 
 const BLANK_POINT = {
   type: '',
@@ -16,7 +17,7 @@ const createEditPointTemplate = (point = {}) => {
 
   const checkedType = type;
 
-  const renderTypeNodes = () =>
+  const renderTypeElements = () =>
     TYPES_OFFERS.map(
       (currentValue) => `
       <div class="event__type-item">
@@ -34,7 +35,7 @@ const createEditPointTemplate = (point = {}) => {
     `,
     ).join('');
 
-  const generateOffersNode = () =>
+  const generateOffersElement = () =>
     offers
       .map((currentValue) => {
         if (currentValue.title === '') {
@@ -54,8 +55,7 @@ const createEditPointTemplate = (point = {}) => {
       })
       .join('');
 
-  return `
-  <li class="trip-events__item">
+  return `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -67,7 +67,7 @@ const createEditPointTemplate = (point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${renderTypeNodes()}
+              ${renderTypeElements()}
             </fieldset>
           </div>
         </div>
@@ -111,7 +111,7 @@ const createEditPointTemplate = (point = {}) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${generateOffersNode()}
+            ${generateOffersElement()}
           </div>
         </section>
         <section class="event__section  event__section--destination">
@@ -119,7 +119,7 @@ const createEditPointTemplate = (point = {}) => {
           <p class="event__destination-description">${destination.description}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
-              ${destination.photos.map((currentValue) => ` <img class="event__photo" src="${currentValue.src}" alt="${currentValue.destination}">`).join('')}
+              ${destination.photos.map((currentValue) => `<img class="event__photo" src="${currentValue.src}" alt="${currentValue.destination}">`).join('')}
             </div>
         </section>
       </section>
@@ -128,26 +128,35 @@ const createEditPointTemplate = (point = {}) => {
   `;
 };
 
-class EditPoint {
+class EditPoint extends AbstractView {
   constructor(point = BLANK_POINT) {
-    this._node = null;
+    super();
     this._point = point;
+    this._formCloseHandler = this._formCloseHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createEditPointTemplate(this._point);
   }
 
-  getNode() {
-    if (!this._node) {
-      this._node = createNode(this.getTemplate());
-    }
-
-    return this._node;
+  _formCloseHandler() {
+    this._callback.formClose();
   }
 
-  removeNode() {
-    this._node = null;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormCloseHandler(callback) {
+    this._callback.formClose = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formCloseHandler);
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
   }
 }
 
