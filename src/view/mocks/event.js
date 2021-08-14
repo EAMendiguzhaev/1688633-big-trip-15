@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting } from '../common/const.js';
+import { nanoid } from 'nanoid';
 import { offers } from './offers.js';
 import { getRandomInteger, getRandomIndex } from '../utils/common.js';
+import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting } from '../common/const.js';
 
 const getRandomTypeEvent = () => TYPES_OFFERS[getRandomIndex(TYPES_OFFERS)];
 
@@ -50,6 +51,7 @@ const generateEvent = () => {
   const typeOffers = offers.find((currentValue) => currentValue.type === randomTypeEvent).offers;
 
   return {
+    id: nanoid(),
     type: randomTypeEvent,
     destination: generateDestination(),
     dateFrom,

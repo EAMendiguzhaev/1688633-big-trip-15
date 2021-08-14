@@ -132,6 +132,7 @@ class EditPoint extends AbstractView {
   constructor(point = BLANK_POINT) {
     super();
     this._point = point;
+
     this._formCloseHandler = this._formCloseHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
@@ -146,7 +147,7 @@ class EditPoint extends AbstractView {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(this._point);
   }
 
   setFormCloseHandler(callback) {
