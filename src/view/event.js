@@ -62,12 +62,13 @@ const createContentElement = (event) => {
   </li>`;
 };
 
-class Content extends AbstractView {
+class Event extends AbstractView {
   constructor(event) {
     super();
     this._event = event;
 
     this._pointOpenHandler = this._pointOpenHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -82,6 +83,16 @@ class Content extends AbstractView {
     this._callback.pointOpen = callback;
     this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._pointOpenHandler);
   }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.event__favorite-btn').addEventListener('click', this._favoriteClickHandler);
+  }
 }
 
-export default Content;
+export default Event;
