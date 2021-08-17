@@ -5,9 +5,9 @@ import AbstractView from './abstract.js';
 const createContentElement = (event) => {
   const { type, destination, dateFrom, dateUntil, isFavorite, price } = event;
   const date = dayjs(dateFrom).format('MMM D');
-  const timeFrom = dayjs(dateFrom);
-  const timeUntil = dayjs(dateUntil);
-  const timeDifference = getTimeDifference(timeFrom, timeUntil);
+  const timeFrom = dayjs(dateFrom).format('HH:mm');
+  const timeUntil = dayjs(dateUntil).format('HH:mm');
+  const timeDifference = getTimeDifference(dateFrom, dateUntil);
   const typeLowerCase = type.toLowerCase();
   const favoriteClassName = isFavorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 
@@ -36,9 +36,9 @@ const createContentElement = (event) => {
       <h3 class="event__title">${type}${destination.name}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${timeFrom.format('HH:mm')}</time>
+          <time class="event__start-time" datetime="2019-03-18T10:30">${timeFrom}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${timeUntil.format('HH:mm')}</time>
+          <time class="event__end-time" datetime="2019-03-18T11:00">${timeUntil}</time>
         </p>
         <p class="event__duration">${timeDifference}</p>
       </div>

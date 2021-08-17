@@ -13,10 +13,7 @@ const tripMainElement = pageHeader.querySelector('.trip-main');
 const filterConrolsElement = tripMainElement.querySelector('.trip-controls__filters');
 const eventContainerElement = document.querySelector('.trip-events');
 
-const events = new Array(EVENTS_COUNT)
-  .fill()
-  .map(generateEvent)
-  .sort((a, b) => a.dateUntil > b.dateUntil);
+const events = new Array(EVENTS_COUNT).fill().map(generateEvent);
 
 render(menuControlsElement, new TripTabsView(), RenderPosition.BEFOREEND);
 render(filterConrolsElement, new TripFiltersView(), RenderPosition.AFTERBEGIN);

@@ -54,7 +54,7 @@ const offers = [
   },
   {
     type: 'Check-in',
-    offers: [{ title: '', price: '' }],
+    offers: [],
   },
   {
     type: 'Sightseeing',
@@ -62,7 +62,7 @@ const offers = [
   },
   {
     type: 'Restaurant',
-    offers: [{ title: '', price: '' }],
+    offers: [],
   },
 ];
 
