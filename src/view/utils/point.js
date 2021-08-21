@@ -93,4 +93,6 @@ const sortOffers = (firstPoint, secondPoint) => {
   return 0;
 };
 
-export { getTimeDifference, formatDateForEditPoint, getTotalDate, sortDay, sortEvent, sortTime, sortPrice, sortOffers };
+const findOffersType = (offers, type) => offers.find((currentValue) => currentValue.type.toLowerCase() === type.toLowerCase()).offers;
+
+export { getTimeDifference, formatDateForEditPoint, getTotalDate, sortDay, sortEvent, sortTime, sortPrice, sortOffers, findOffersType };
