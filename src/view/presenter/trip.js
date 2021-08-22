@@ -62,8 +62,6 @@ class Trip {
         this._eventPoints = this._sourcedEventPoints;
       }
     }
-
-    this._currentSortType = sortType;
   }
 
   _handleSortTypeChange(sortType) {
