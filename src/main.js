@@ -1,27 +1,29 @@
-import { render, RenderPosition } from './view/utils/render.js';
-import { generateEvent } from './view/mocks/event.js';
-import TripMainView from './view/trip-main.js';
-import TripTabsView from './view/trip-tabs.js';
-import TripFiltersView from './view/trip-filters.js';
+import { generatePoint } from './view/mocks/point.js';
 import TripPresenter from './view/presenter/trip.js';
+import PointsModel from './model/points.js';
+import FilterModel from './model/filter.js';
+import FilterPresenter from './view/presenter/filter.js';
 
-const EVENTS_COUNT = 20;
+const POINTS_COUNT = 14;
 
-const pageHeader = document.querySelector('.page-header');
-const menuControlsElement = pageHeader.querySelector('.trip-controls__navigation');
-const tripMainElement = pageHeader.querySelector('.trip-main');
-const filterConrolsElement = tripMainElement.querySelector('.trip-controls__filters');
-const eventContainerElement = document.querySelector('.trip-events');
+const tripMainElement = document.querySelector('.trip-main');
+const pageMainElement = document.querySelector('.page-main');
+const filtersElement = tripMainElement.querySelector('.trip-controls__filters');
+const newPointButton = tripMainElement.querySelector('.trip-main__event-add-btn');
 
-const events = new Array(EVENTS_COUNT).fill().map(generateEvent);
+const filterModel = new FilterModel();
 
-render(menuControlsElement, new TripTabsView(), RenderPosition.BEFOREEND);
-render(filterConrolsElement, new TripFiltersView(), RenderPosition.AFTERBEGIN);
+const points = new Array(POINTS_COUNT).fill().map(generatePoint);
 
-if (events.length > 0) {
-  render(tripMainElement, new TripMainView(events), RenderPosition.AFTERBEGIN);
-}
+const pointsModel = new PointsModel();
+pointsModel.setPoints(points);
 
-const tripPresenter = new TripPresenter(eventContainerElement);
+const filterPresenter = new FilterPresenter(filtersElement, filterModel);
+filterPresenter.init();
 
-tripPresenter.init(events);
+const tripPresenter = new TripPresenter(tripMainElement, pageMainElement, pointsModel, filterModel);
+tripPresenter.init();
+
+newPointButton.addEventListener('click', () => {
+  tripPresenter.createPoint();
+});

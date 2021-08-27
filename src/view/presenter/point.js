@@ -1,7 +1,8 @@
-import EventView from '../event.js';
-import EditPointView from '../edit-point.js';
 import { render, remove, replace, RenderPosition } from '../utils/render.js';
 import { isEscEvent } from '../utils/common.js';
+import { UserAction, UpdateType } from '../common/const.js';
+import PointView from '../point.js';
+import EditPointView from '../edit-point.js';
 
 const Mode = {
   EDITING: 'EDITING',
@@ -14,7 +15,7 @@ class Point {
     this._changeData = changeData;
     this._changeMode = changeMode;
 
-    this._eventComponent = null;
+    this._pointComponent = null;
     this._editPointComponent = null;
     this._mode = Mode.DEFAULT;
 
@@ -23,29 +24,33 @@ class Point {
     this._handleFormClose = this._handleFormClose.bind(this);
     this._escDownHandler = this._escDownHandler.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
   init(point) {
     this._point = point;
 
-    const prevPointComponent = this._eventComponent;
+    const prevPointComponent = this._pointComponent;
     const prevEditPointComponent = this._editPointComponent;
 
-    this._eventComponent = new EventView(point);
+    this._pointComponent = new PointView(point);
     this._editPointComponent = new EditPointView(point);
 
-    this._eventComponent.setPointOpenHandler(this._handleEditClick);
+    this._pointComponent.setPointOpenHandler(this._handleEditClick);
+    this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+
     this._editPointComponent.setFormCloseHandler(this._handleFormClose);
     this._editPointComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._editPointComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevEditPointComponent === null || prevPointComponent === null) {
-      render(this._pointListContainer, this._eventComponent, RenderPosition.BEFOREEND);
+      render(this._pointListContainer, this._pointComponent, RenderPosition.BEFOREEND);
       return;
     }
 
     if (this._mode === Mode.DEFAULT) {
-      replace(this._eventComponent, prevPointComponent);
+      replace(this._pointComponent, prevPointComponent);
     }
 
     if (this._mode === Mode.EDITING) {
@@ -54,7 +59,7 @@ class Point {
   }
 
   destroy() {
-    remove(this._eventComponent);
+    remove(this._pointComponent);
     remove(this._editPointComponent);
   }
 
@@ -65,7 +70,7 @@ class Point {
   }
 
   _replacePointToEditForm() {
-    replace(this._editPointComponent, this._eventComponent);
+    replace(this._editPointComponent, this._pointComponent);
     document.addEventListener('keydown', this._escDownHandler);
 
     this._changeMode();
@@ -73,7 +78,7 @@ class Point {
   }
 
   _replaceEditFormToPoint() {
-    replace(this._eventComponent, this._editPointComponent);
+    replace(this._pointComponent, this._editPointComponent);
     document.removeEventListener('keydown', this._escDownHandler);
 
     this._mode = Mode.DEFAULT;
@@ -92,7 +97,8 @@ class Point {
   }
 
   _handleFormSubmit(point) {
-    this._changeData(point);
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, point);
+
     this._replaceEditFormToPoint();
   }
 
@@ -103,10 +109,16 @@ class Point {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
       Object.assign({}, this._point, {
         isFavorite: !this._point.isFavorite,
       }),
     );
+  }
+
+  _handleDeleteClick(point) {
+    this._changeData(UserAction.DELETE_POINT, UpdateType.MINOR, point);
   }
 }
 
