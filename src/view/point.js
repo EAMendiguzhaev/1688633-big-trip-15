@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { getTimeDifference } from './utils/point.js';
 import AbstractView from './abstract.js';
 
-const createContentElement = (event) => {
-  const { type, destination, dateFrom, dateUntil, isFavorite, price } = event;
+const createContentElement = (point) => {
+  const { type, destination, dateFrom, dateUntil, isFavorite, price } = point;
   const date = dayjs(dateFrom).format('MMM D');
   const timeFrom = dayjs(dateFrom).format('HH:mm');
   const timeUntil = dayjs(dateUntil).format('HH:mm');
@@ -12,7 +12,7 @@ const createContentElement = (event) => {
   const favoriteClassName = isFavorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 
   const generateOffersElement = () =>
-    event.offers
+    point.offers
       .map((value) => {
         if (value.title === '') {
           return '';
@@ -62,17 +62,17 @@ const createContentElement = (event) => {
   </li>`;
 };
 
-class Event extends AbstractView {
-  constructor(event) {
+class Point extends AbstractView {
+  constructor(point) {
     super();
-    this._event = event;
+    this._point = point;
 
     this._pointOpenHandler = this._pointOpenHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createContentElement(this._event);
+    return createContentElement(this._point);
   }
 
   _pointOpenHandler() {
@@ -95,4 +95,4 @@ class Event extends AbstractView {
   }
 }
 
-export default Event;
+export default Point;

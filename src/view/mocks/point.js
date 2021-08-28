@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
-import { offers } from './offers.js';
 import { getRandomInteger, getRandomIndex } from '../utils/common.js';
-import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting } from '../common/const.js';
+import { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting, OFFERS } from '../common/const.js';
 import { findOffersType } from '../utils/point.js';
 
-const getRandomTypeEvent = () => TYPES_OFFERS[getRandomIndex(TYPES_OFFERS)];
+const getRandomTypePoint = () => TYPES_OFFERS[getRandomIndex(TYPES_OFFERS)];
 
 const getRandomDescription = (text) => {
   const sentence = text.slice(0, -1).split('. ');
@@ -41,15 +40,15 @@ const generateRandomDate = () =>
     .add(getRandomInteger(0, MINUTES_PASS), 'minute')
     .format('YYYY-MM-DDTHH:mm');
 
-const generateEvent = () => {
+const generatePoint = () => {
   const dateFrom = generateRandomDate();
   const dateUntil = dayjs(dateFrom)
     .add(getRandomInteger(0, getRandomInteger(0, HOURS_PASS)), 'hour')
     .add(getRandomInteger(0, MINUTES_PASS), 'minute')
     .format('YYYY-MM-DDTHH:mm');
-  const randomTypePoint = getRandomTypeEvent();
+  const randomTypePoint = getRandomTypePoint();
 
-  const typeOffers = findOffersType(offers, randomTypePoint);
+  const typeOffers = findOffersType(OFFERS, randomTypePoint);
 
   return {
     id: nanoid(),
@@ -63,4 +62,4 @@ const generateEvent = () => {
   };
 };
 
-export { generateEvent, getRandomDescription, generatePhoto };
+export { generatePoint, getRandomDescription, generatePhoto, generateDestination };
