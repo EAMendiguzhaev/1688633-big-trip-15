@@ -7,7 +7,7 @@ import SmartView from './smart.js';
 import flatpickr from 'flatpickr';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
-const typeBlank = TYPES_OFFERS[0];
+const [typeBlank] = TYPES_OFFERS;
 
 const BLANK_POINT = {
   type: typeBlank,

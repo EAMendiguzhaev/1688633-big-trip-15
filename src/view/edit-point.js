@@ -265,7 +265,7 @@ class EditPoint extends SmartView {
   }
 
   _priceChangeHandler(evt) {
-    const newPrice = +evt.currentTarget.value;
+    const newPrice = evt.currentTarget.valueAsNumber;
 
     const justDataUpdating = true;
 
