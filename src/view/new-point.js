@@ -40,7 +40,7 @@ const createNewPointTemplate = (point) => {
         ${currentValue}
         </label>
       </div>
-    `,
+    `
     ).join('');
 
   const generateOffersElement = () => {
@@ -64,7 +64,7 @@ const createNewPointTemplate = (point) => {
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">${currentValue.price}</span>
               </label>
-            </div>`,
+            </div>`
               )
               .join('')}
           </div>
@@ -77,7 +77,7 @@ const createNewPointTemplate = (point) => {
   const cityDataList = CITIES.map(
     (currentValue) => `
       <option value="${currentValue}"></option>
-    `,
+    `
   ).join('');
 
   return `<li class="trip-events__item">
@@ -291,7 +291,9 @@ class NewPoint extends SmartView {
 
     if (newCityName === this._data.destination) {
       return;
-    } else if (CITIES.indexOf(newCityName) === -1) {
+    }
+
+    if (CITIES.indexOf(newCityName) === -1) {
       evt.currentTarget.value = '';
       return;
     }
@@ -328,7 +330,7 @@ class NewPoint extends SmartView {
       {
         price: newPrice,
       },
-      justDataUpdating,
+      justDataUpdating
     );
   }
 
