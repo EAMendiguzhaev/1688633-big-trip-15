@@ -45,11 +45,11 @@ const getSumPriceOfTypes = (points) => {
   let sumPrices = uniqueTypes.map((type) => {
     let sumPrice = 0;
 
-    points.forEach((point) => {
-      if (point.type.toUpperCase() === type) {
-        sumPrice += point.price;
-      }
-    });
+    points.reduce((acc, it) => {
+      const isCurrentType = it.type.toUpperCase() === type;
+
+      return (sumPrice = isCurrentType ? (acc += it.price) : acc);
+    }, 0);
 
     return sumPrice;
   });

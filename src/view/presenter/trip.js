@@ -98,35 +98,41 @@ class Trip {
 
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
-      case UserAction.UPDATE_POINT:
+      case UserAction.UPDATE_POINT: {
         this._pointsModel.updatePoint(updateType, update);
         break;
+      }
 
-      case UserAction.ADD_POINT:
+      case UserAction.ADD_POINT: {
         this._pointsModel.addPoint(updateType, update);
         break;
+      }
 
-      case UserAction.DELETE_POINT:
+      case UserAction.DELETE_POINT: {
         this._pointsModel.deletePoint(updateType, update);
         break;
+      }
     }
   }
 
   _handleModelEvent(updateType, data) {
     switch (updateType) {
-      case UpdateType.PATCH:
+      case UpdateType.PATCH: {
         this._pointPresenter[data.id].init(data);
         break;
+      }
 
-      case UpdateType.MINOR:
+      case UpdateType.MINOR: {
         this._clearEventPointsList();
         this._renderTripEvents();
         break;
+      }
 
-      case UpdateType.MAJOR:
+      case UpdateType.MAJOR: {
         this._clearEventPointsList({ resetSortType: true });
         this._renderTripEvents();
         break;
+      }
     }
   }
 
