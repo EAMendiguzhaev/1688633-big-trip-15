@@ -3,10 +3,9 @@ import { UpdateType } from '../common/const.js';
 import FiltersView from '../trip-filters.js';
 
 class Filter {
-  constructor(filterContainer, filterModel, pointsModel) {
+  constructor(filterContainer, filterModel) {
     this._filterContainer = filterContainer;
     this._filterModel = filterModel;
-    this._pointsModel = pointsModel;
 
     this._filterComponent = null;
 

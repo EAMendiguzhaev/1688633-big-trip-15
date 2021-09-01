@@ -4,10 +4,10 @@ import { UserAction, UpdateType } from '../common/const.js';
 import NewPointView from '../new-point.js';
 
 class NewPoint {
-  constructor(pointListContainer, changeData, changeMode) {
+  constructor(pointListContainer, changeData, newPointButton) {
     this._pointListContainer = pointListContainer;
     this._changeData = changeData;
-    this._changeMode = changeMode;
+    this._newPointButton = newPointButton;
 
     this._newPointComponent = null;
 
@@ -46,16 +46,18 @@ class NewPoint {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       this.destroy();
       document.removeEventListener('keydown', this._handleEscDown);
+      this._newPointButton.disabled = false;
     }
   }
 
   _handleFormSubmit(updatedPoint) {
     this._changeData(UserAction.ADD_POINT, UpdateType.MAJOR, Object.assign({}, updatedPoint, { id: nanoid() }));
-
+    this._newPointButton.disabled = false;
     this.destroy();
   }
 
   _handleDeleteClick() {
+    this._newPointButton.disabled = false;
     this.destroy();
   }
 }

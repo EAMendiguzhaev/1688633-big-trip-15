@@ -107,4 +107,24 @@ const FilterType = {
   PAST: 'past',
 };
 
-export { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, CITIES, DESCRIPTION_CITY, OfferSetting, SortType, OFFERS, DEFAULT_TIME_DIFFERENCE, UserAction, UpdateType, FilterType };
+const MenuItem = {
+  TABLE: 'Table',
+  STATS: 'Stats',
+};
+
+export {
+  DAY_PASS,
+  HOURS_PASS,
+  MINUTES_PASS,
+  TYPES_OFFERS,
+  CITIES,
+  DESCRIPTION_CITY,
+  OfferSetting,
+  SortType,
+  OFFERS,
+  DEFAULT_TIME_DIFFERENCE,
+  UserAction,
+  UpdateType,
+  FilterType,
+  MenuItem,
+};
