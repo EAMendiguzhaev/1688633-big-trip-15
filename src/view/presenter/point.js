@@ -28,14 +28,14 @@ class Point {
     this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
-  init(point) {
+  init(point, offers, destinations) {
     this._point = point;
 
     const prevPointComponent = this._pointComponent;
     const prevEditPointComponent = this._editPointComponent;
 
     this._pointComponent = new PointView(point);
-    this._editPointComponent = new EditPointView(point);
+    this._editPointComponent = new EditPointView(point, offers, destinations);
 
     this._pointComponent.setPointOpenHandler(this._handleEditClick);
     this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
@@ -108,13 +108,7 @@ class Point {
   }
 
   _handleFavoriteClick() {
-    this._changeData(
-      UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
-      Object.assign({}, this._point, {
-        isFavorite: !this._point.isFavorite,
-      }),
-    );
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, Object.assign({}, this._point, { sFavorite: !this._point.isFavorite }));
   }
 
   _handleDeleteClick(point) {
