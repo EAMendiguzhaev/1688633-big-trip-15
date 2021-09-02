@@ -84,8 +84,6 @@ const sortPrice = (firstPoint, secondPoint) => {
   return 0;
 };
 
-const findOffersType = (offers, type) => offers.find((currentValue) => currentValue.type.toLowerCase() === type.toLowerCase()).offers;
-
 const isPointFuture = (date) => dayjs(date).isSameOrAfter(dayjs());
 
 const isPointPast = (date) => dayjs(date).isBefore(dayjs());
@@ -97,7 +95,6 @@ export {
   sortDay,
   sortTime,
   sortPrice,
-  findOffersType,
   isPointFuture,
   isPointPast,
   getTimeDifferenceMs,
