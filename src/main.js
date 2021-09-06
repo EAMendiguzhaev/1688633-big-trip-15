@@ -8,7 +8,7 @@ import TripTabsView from './view/trip-tabs.js';
 import StatisticsView from './view/statistics.js';
 import Api from './api.js';
 
-const AUTHORIZATION = 'Basic 15_mea';
+const AUTHORIZATION = 'Basic 14_mea';
 const END_POINT = 'https://15.ecmascript.pages.academy/big-trip';
 
 const tripMainElement = document.querySelector('.trip-main');

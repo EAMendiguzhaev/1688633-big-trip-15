@@ -16,7 +16,7 @@ const createDestinationDatalistTemplate = (destinations) => {
   return optionsMarkup;
 };
 
-const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers) => {
+const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers, isDisabled) => {
   const allOffers = allOffersOfCurrentType.offers;
 
   if (!allOffers.length) {
@@ -27,34 +27,37 @@ const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers) => {
 
   allOffers.forEach((offer, index) => {
     const isChecked = checkedOffers.find((checkedOffer) => checkedOffer.title === offer.title);
+
     const id = `event-offer-${offer.title.toLowerCase().split(' ').join('-')}-${index + 1}`;
 
     optionsMarkup += `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''}>
+    <input class="event__offer-checkbox  visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''} ${
+      isDisabled ? 'disabled' : ''
+    }>
     <label class="event__offer-label" for="${id}">
       <span class="event__offer-title">${offer.title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${offer.price}</span>
     </label>
-    </div>`;
+  </div>`;
   });
 
   return `<section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-      <div class="event__available-offers">
-      ${optionsMarkup}
-      </div>
-    </section>`;
+            <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+            <div class="event__available-offers">
+            ${optionsMarkup}
+            </div>
+          </section>`;
 };
 
-const createEventTypeItemsTemplate = (chosenType, types) => {
+const createEventTypeItemsTemplate = (chosenType, types, isDisabled) => {
   let itemsMarkup = '';
 
   types.forEach((currentType) => {
     itemsMarkup += `<div class="event__type-item">
-      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentType.toLowerCase()}" ${
-      currentType.toLowerCase() === chosenType ? 'checked' : ''
-    }>
+      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" name="event-type" ${
+      isDisabled ? 'disabled' : ''
+    } value="${currentType.toLowerCase()}" ${currentType.toLowerCase() === chosenType ? 'checked' : ''}>
       <label class="event__type-label  event__type-label--${currentType.toLowerCase()}" for="event-type-${currentType.toLowerCase()}">${currentType}</label>
     </div>`;
   });
@@ -72,8 +75,8 @@ const createPicturesTemplate = (pictures) => {
   return picturesMarkup;
 };
 
-const createEditPointTemplate = (point, offersData, destinationsData) => {
-  const { type, destination, dateFrom, dateUntil, price } = point;
+const createEditPointTemplate = (point, offersData, destinationsData, isDisabled) => {
+  const { type, destination, dateFrom, dateUntil, price, isSaving, isDeleting } = point;
 
   const checkedOffers = point.offers;
   const destinations = destinationsData;
@@ -87,11 +90,11 @@ const createEditPointTemplate = (point, offersData, destinationsData) => {
               <span class="visually-hidden">Choose event type</span>
               <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
             </label>
-            <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+            <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" ${isDisabled ? 'disabled' : ''}>
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                ${createEventTypeItemsTemplate(type, TYPES_OFFERS)}
+               ${createEventTypeItemsTemplate(type, TYPES_OFFERS, isDisabled)}
               </fieldset>
             </div>
           </div>
@@ -100,47 +103,48 @@ const createEditPointTemplate = (point, offersData, destinationsData) => {
               ${type}
             </label>
             <input class="event__input  event__input--destination"
-                   id="event-destination-1"
-                   type="text" name="event-destination"
-                   value="${he.encode(destination.name)}" list="destination-list-1">
+              id="event-destination-1"
+              type="text" name="event-destination"
+              value="${he.encode(destination.name)}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
             <datalist id="destination-list-1">
               ${createDestinationDatalistTemplate(destinations)}
             </datalist>
           </div>
           <div class="event__field-group  event__field-group--time">
             <label class="visually-hidden" for="event-start-time-1">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time"
-            value="${formatDateForEditPoint(dateFrom)}">
+              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time"
+              value="${formatDateForEditPoint(dateFrom)}" ${isDisabled ? 'disabled' : ''}>
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"
-            value="${formatDateForEditPoint(dateUntil)}">
+              <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"
+              value="${formatDateForEditPoint(dateUntil)}" ${isDisabled ? 'disabled' : ''}>
           </div>
           <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${price}">
+              <input class="event__input event__input--price" id="event-price-1" type="number" name="event-price" value="${price}"
+              ${isDisabled ? 'disabled' : ''}>
           </div>
-          <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">Delete</button>
-          <button class="event__rollup-btn" type="button">
+          <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+          <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
+          <button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>
             <span class="visually-hidden">Open event</span>
           </button>
         </header>
         <section class="event__details">
           ${createOptionOffersTemplate(allOffersOfCurrentType, checkedOffers)}
-        <section class="event__section  event__section--destination">
-          <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+          <section class="event__section  event__section--destination">
+            <h3 class="event__section-title  event__section-title--destination">Destination</h3>
             <p class="event__destination-description">${destination.description}</p>
-          <div class="event__photos-container">
-            <div class="event__photos-tape">
-              ${createPicturesTemplate(destination.pictures)}
+            <div class="event__photos-container">
+              <div class="event__photos-tape">
+                ${createPicturesTemplate(destination.pictures)}
+              </div>
             </div>
-          </div>
+          </section>
         </section>
-      </section>
     </form>
   </li>`;
 };
@@ -318,6 +322,11 @@ class EditPoint extends SmartView {
     });
   }
 
+  _getDestinationList(destinations) {
+    const destinationList = destinations.map((destination) => destination.name);
+    return destinationList;
+  }
+
   _pointCityToggleHandler(evt) {
     const newCityName = evt.currentTarget.value;
 
@@ -346,11 +355,23 @@ class EditPoint extends SmartView {
   }
 
   static parsePointToData(point) {
-    return Object.assign({}, point);
+    const data = Object.assign({}, point, {
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    });
+
+    return data;
   }
 
   static parseDataToPoint(data) {
-    return Object.assign({}, data);
+    const point = Object.assign({}, data);
+
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
+    return point;
   }
 }
 
