@@ -9,7 +9,7 @@ const Mode = {
   DEFAULT: 'DEFAULT',
 };
 
-export const State = {
+const State = {
   SAVING: 'SAVING',
   DELETING: 'DELETING',
   ABORTING: 'ABORTING',
@@ -155,4 +155,4 @@ class Point {
   }
 }
 
-export default Point;
+export { Point as default, State };

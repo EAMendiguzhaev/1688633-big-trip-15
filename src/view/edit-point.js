@@ -31,7 +31,7 @@ const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers, isDis
     const id = `event-offer-${offer.title.toLowerCase().split(' ').join('-')}-${index + 1}`;
 
     optionsMarkup += `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''} ${
+    <input class="event__offer-checkbox visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''} ${
       isDisabled ? 'disabled' : ''
     }>
     <label class="event__offer-label" for="${id}">
@@ -42,8 +42,8 @@ const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers, isDis
   </div>`;
   });
 
-  return `<section class="event__section  event__section--offers">
-            <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+  return `<section class="event__section event__section--offers">
+            <h3 class="event__section-title event__section-title--offers">Offers</h3>
             <div class="event__available-offers">
             ${optionsMarkup}
             </div>
@@ -55,10 +55,10 @@ const createEventTypeItemsTemplate = (chosenType, types, isDisabled) => {
 
   types.forEach((currentType) => {
     itemsMarkup += `<div class="event__type-item">
-      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" name="event-type" ${
+      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input visually-hidden" type="radio" name="event-type" ${
       isDisabled ? 'disabled' : ''
     } value="${currentType.toLowerCase()}" ${currentType.toLowerCase() === chosenType ? 'checked' : ''}>
-      <label class="event__type-label  event__type-label--${currentType.toLowerCase()}" for="event-type-${currentType.toLowerCase()}">${currentType}</label>
+      <label class="event__type-label event__type-label--${currentType.toLowerCase()}" for="event-type-${currentType.toLowerCase()}">${currentType}</label>
     </div>`;
   });
 
@@ -86,11 +86,11 @@ const createEditPointTemplate = (point, offersData, destinationsData, isDisabled
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
           <div class="event__type-wrapper">
-            <label class="event__type  event__type-btn" for="event-type-toggle-1">
+            <label class="event__type event__type-btn" for="event-type-toggle-1">
               <span class="visually-hidden">Choose event type</span>
               <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
             </label>
-            <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" ${isDisabled ? 'disabled' : ''}>
+            <input class="event__type-toggle visually-hidden" id="event-type-toggle-1" type="checkbox" ${isDisabled ? 'disabled' : ''}>
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
@@ -98,11 +98,11 @@ const createEditPointTemplate = (point, offersData, destinationsData, isDisabled
               </fieldset>
             </div>
           </div>
-          <div class="event__field-group  event__field-group--destination">
-            <label class="event__label  event__type-output" for="event-destination-1">
+          <div class="event__field-group event__field-group--destination">
+            <label class="event__label event__type-output" for="event-destination-1">
               ${type}
             </label>
-            <input class="event__input  event__input--destination"
+            <input class="event__input event__input--destination"
               id="event-destination-1"
               type="text" name="event-destination"
               value="${he.encode(destination.name)}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
@@ -110,9 +110,9 @@ const createEditPointTemplate = (point, offersData, destinationsData, isDisabled
               ${createDestinationDatalistTemplate(destinations)}
             </datalist>
           </div>
-          <div class="event__field-group  event__field-group--time">
+          <div class="event__field-group event__field-group--time">
             <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time"
+              <input class="event__input event__input--time" id="event-start-time-1" type="text" name="event-start-time"
               value="${formatDateForEditPoint(dateFrom)}" ${isDisabled ? 'disabled' : ''}>
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -127,7 +127,7 @@ const createEditPointTemplate = (point, offersData, destinationsData, isDisabled
               <input class="event__input event__input--price" id="event-price-1" type="number" name="event-price" value="${price}"
               ${isDisabled ? 'disabled' : ''}>
           </div>
-          <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+          <button class="event__save-btn btn btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
           <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
           <button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>
             <span class="visually-hidden">Open event</span>
@@ -180,7 +180,6 @@ class EditPoint extends SmartView {
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setFormCloseHandler(this._callback.formClose);
     this.setDeleteClickHandler(this._callback.deleteClick);
-
     this._setFromDatepicker();
     this._setToDatepicker();
   }
@@ -215,7 +214,7 @@ class EditPoint extends SmartView {
       'time_24hr': true,
       'minDate': dayjs(this._data.dateFrom).toDate(),
       'dateFormat': 'd/m/y H:i',
-      'defaultDate': dayjs(this._data.dateTo).toDate(),
+      'defaultDate': dayjs(this._data.dateUntil).toDate(),
       onChange: this._dateUntilChangeHandler,
     });
   }
@@ -231,7 +230,7 @@ class EditPoint extends SmartView {
 
   _dateUntilChangeHandler([userDate]) {
     this.updateData({
-      dateTo: userDate,
+      dateUntil: userDate,
     });
   }
 
