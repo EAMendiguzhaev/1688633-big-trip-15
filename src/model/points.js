@@ -73,7 +73,6 @@ class Points extends Observer {
       'date_to': point.dateUntil instanceof Date ? point.dateUntil.toISOString() : null,
       'base_price': point.price,
       'is_favorite': point.isFavorite,
-
       'offers': point.offers,
     });
 
