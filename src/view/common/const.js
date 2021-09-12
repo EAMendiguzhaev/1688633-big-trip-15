@@ -1,13 +1,4 @@
-const DAY_PASS = 7;
-const HOURS_PASS = 24;
-const MINUTES_PASS = 60;
-
 const TYPES_OFFERS = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
-
-const OfferSetting = {
-  min: 1,
-  max: 5,
-};
 
 const SortType = {
   DAY: 'day',
@@ -41,4 +32,4 @@ const MenuItem = {
   STATS: 'Stats',
 };
 
-export { DAY_PASS, HOURS_PASS, MINUTES_PASS, TYPES_OFFERS, OfferSetting, SortType, DEFAULT_TIME_DIFFERENCE, UserAction, UpdateType, FilterType, MenuItem };
+export { TYPES_OFFERS, SortType, DEFAULT_TIME_DIFFERENCE, UserAction, UpdateType, FilterType, MenuItem };

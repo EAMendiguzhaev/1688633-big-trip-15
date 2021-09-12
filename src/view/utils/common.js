@@ -7,8 +7,6 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const getRandomIndex = (array) => getRandomInteger(0, array.length - 1);
-
 const isEscEvent = (evt) => evt.key === KeyboardKey.ESCAPE;
 
-export { getRandomInteger, getRandomIndex, isEscEvent };
+export { getRandomInteger, isEscEvent };

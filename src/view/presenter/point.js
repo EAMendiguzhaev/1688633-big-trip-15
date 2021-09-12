@@ -30,7 +30,6 @@ class Point {
     this._handleFormClose = this._handleFormClose.bind(this);
     this._escDownHandler = this._escDownHandler.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
-
     this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
@@ -147,7 +146,7 @@ class Point {
   }
 
   _handleFavoriteClick() {
-    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, Object.assign({}, this._point, { sFavorite: !this._point.isFavorite }));
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, Object.assign({}, this._point, { isFavorite: !this._point.isFavorite }));
   }
 
   _handleDeleteClick(point) {
