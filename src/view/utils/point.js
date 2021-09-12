@@ -88,15 +88,4 @@ const isPointFuture = (date) => dayjs(date).isSameOrAfter(dayjs());
 
 const isPointPast = (date) => dayjs(date).isBefore(dayjs());
 
-export {
-  getTimeDifference,
-  formatDateForEditPoint,
-  getTotalDate,
-  sortDay,
-  sortTime,
-  sortPrice,
-  isPointFuture,
-  isPointPast,
-  getTimeDifferenceMs,
-  getTimeFormatted,
-};
+export { getTimeDifference, formatDateForEditPoint, getTotalDate, sortDay, sortTime, sortPrice, isPointFuture, isPointPast, getTimeDifferenceMs, getTimeFormatted };

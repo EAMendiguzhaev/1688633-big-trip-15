@@ -30,9 +30,7 @@ const createOptionOffersTemplate = (allOffersOfCurrentType, checkedOffers, isDis
     const id = `event-offer-${offer.title.toLowerCase().split(' ').join('-')}-${index + 1}`;
 
     optionsMarkup += `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''} ${
-      isDisabled ? 'disabled' : ''
-    }>
+    <input class="event__offer-checkbox  visually-hidden" id="${id}" type="checkbox" value="${offer.title}" name="${id}" ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}>
     <label class="event__offer-label" for="${id}">
       <span class="event__offer-title">${offer.title}</span>
       &plus;&euro;&nbsp;
@@ -54,9 +52,8 @@ const createEventTypeItemsTemplate = (chosenType, types, isDisabled) => {
 
   types.forEach((currentType) => {
     itemsMarkup += `<div class="event__type-item">
-      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" ${
-      isDisabled ? 'disabled' : ''
-    } name="event-type" value="${currentType.toLowerCase()}" ${currentType.toLowerCase() === chosenType ? 'checked' : ''}>
+      <input id="event-type-${currentType.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" ${isDisabled ? 'disabled' : ''} name="event-type" value="${currentType.toLowerCase()}"
+      ${currentType.toLowerCase() === chosenType ? 'checked' : ''}>
       <label class="event__type-label  event__type-label--${currentType.toLowerCase()}" for="event-type-${currentType.toLowerCase()}">${currentType}</label>
     </div>`;
   });
